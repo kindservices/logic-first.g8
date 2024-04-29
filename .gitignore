@@ -1,0 +1,15 @@
+target/
+boot/
+lib_managed/
+src_managed/
+project/plugins/project/
+.idea
+.metals
+.bloop.vscode
+project/project
+project/metals.sbt
+.bloop
+.DS_Store
+.bsp
+localtest
+.vscode

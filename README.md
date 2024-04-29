@@ -35,11 +35,14 @@ Logic-First is a combination of:
 
 ## Usage
 
-Run
+To create a new project using this template, run:
 
 ```bash
 sbt new kindservices/logic-first.g8
 ```
+
+And fill in the promps (or accept the defaults), then follow the generated READMD.md.
+
 
 ## Working on this template:
 

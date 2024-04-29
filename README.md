@@ -41,6 +41,13 @@ To create a new project using this template, run:
 sbt new kindservices/logic-first.g8
 ```
 
+Or, if you don't have [sbt](https://www.scala-sbt.org/) installed:
+
+```sh
+docker run -it --rm -v ${PWD}:/app -w /app hseeberger/scala-sbt:8u222_1.3.5_2.13.1 sbt new kindservices/logic-first.g8
+```
+
+
 And fill in the promps (or accept the defaults), then follow the generated READMD.md.
 
 

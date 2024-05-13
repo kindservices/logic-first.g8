@@ -13,3 +13,4 @@ project/metals.sbt
 .bsp
 localtest
 .vscode
+node_modules

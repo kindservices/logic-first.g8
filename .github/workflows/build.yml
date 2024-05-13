@@ -1,0 +1,44 @@
+name: Two-Phase Build and Test
+
+on:
+  push:
+    branches:
+      - "*" 
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - name: Install g8
+        run: |
+            curl -Ls https://github.com/foundweekends/giter8/releases/download/v0.14.0/g8-0.14.0-cs-x86_64-pc-win32.zip -o g8.zip
+            unzip g8.zip -d g8
+            echo "$PWD/g8/bin" >> $GITHUB_PATH
+  
+      - name: Generate the source files
+        run: g8 file://. --name=localtest --force
+
+      - name: Cache SBT
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.sbt
+            ~/.ivy2/cache
+            ~/.cache/coursier
+          key: ${{ runner.os }}-sbt-${{ hashFiles('**/build.sbt') }}
+          restore-keys: |
+                ${{ runner.os }}-sbt-
+    
+      - name: Change directory to localtest and run sbt test
+        run: |
+          cd localtest
+          sbt test

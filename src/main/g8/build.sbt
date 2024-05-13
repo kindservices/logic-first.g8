@@ -8,11 +8,16 @@ ThisBuild / scalaVersion := "3.4.1"
 ThisBuild / scalafmtOnCompile := true
 ThisBuild / versionScheme := Some("early-semver")
 
+val LogicFirstVersion = "0.1.12"
+val githubResolver = "GitHub Package Registry" at "https://maven.pkg.github.com/kindservices/logic-first"
+ThisBuild / resolvers += githubResolver
+
 
 // Common settings
 lazy val commonSettings = Seq(
   buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
   buildInfoPackage := "$pckg;format="lower,package"$.buildinfo",
+  resolvers += githubResolver,
   // ============== UNCOMMENT THIS LINE WHEN YOUR MODELS COME FROM THE SERVICE.YAML ===============
   //
   // this is our model libraries, generated from the service.yaml and created/publised via 'make packageRestCode'
@@ -22,10 +27,7 @@ lazy val commonSettings = Seq(
   // libraryDependencies += "$organisation$" %%% "$name$" % "0.0.1",
   // ================================================================================================
   libraryDependencies ++= Seq(
-    "dev.zio" %%% "zio" % "$zio_version$",
-    "org.scalatest" %%% "scalatest" % "$scalatest_version$" % Test,
-    "com.lihaoyi" %%% "upickle" % "$upickle_version$",
-    "com.lihaoyi" %%% "sourcecode" % "$sourcecode_version$"
+    "org.scalatest" %%% "scalatest" % "$scalatest_version$" % Test
   )
 )
 
@@ -33,9 +35,8 @@ ThisBuild / scalacOptions ++= Seq(
   "-deprecation",
   "-feature",
   "-unchecked",
-  "-rewrite",//-rewrite -source 3.4-migration
-  "-Xlint",
-  "-Xsource:3.4"
+  "-rewrite",
+  "-Xlint"
 )
 
 lazy val app = crossProject(JSPlatform, JVMPlatform).in(file(".")).
@@ -43,14 +44,16 @@ lazy val app = crossProject(JSPlatform, JVMPlatform).in(file(".")).
   settings(commonSettings).
   jvmSettings(
     libraryDependencies ++= Seq(
+      "com.github.aaronp" %%% "logic-first-jvm" % LogicFirstVersion, // <-- NOTE: this would be better in common settings, but we have a different suffix for jvm and JS
       "com.lihaoyi" %% "cask" % "$cask_version$")
   ).
   jsSettings(
     scalaJSUseMainModuleInitializer := true,
     libraryDependencies ++= Seq(
-      "io.github.cquiroz" %%% "scala-java-time" % "$scala_time_version$",
-      "com.lihaoyi" %%% "scalatags" % "$scalatags_version$",
-      "org.scala-js" %%% "scalajs-dom" % "2.4.0"
+      "com.github.aaronp" %%% "logic-first-js" % LogicFirstVersion, // <-- NOTE: this would be better in common settings, but we have a different suffix for jvm and JS
+      // "io.github.cquiroz" %%% "scala-java-time" % "$scala_time_version$",
+      // "com.lihaoyi" %%% "scalatags" % "$scalatags_version$",
+      // "org.scala-js" %%% "scalajs-dom" % "2.4.0"
     ),
     scalaJSLinkerConfig ~= {
       _.withModuleKind(ModuleKind.ESModule)

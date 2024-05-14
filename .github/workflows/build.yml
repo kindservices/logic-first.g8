@@ -32,7 +32,5 @@ jobs:
       - name: Generate our test project
         run: |
           sbt new file://. --name=localtest
-      - name: Change directory to localtest and run sbt test
-        run: |
           cd localtest
           sbt test

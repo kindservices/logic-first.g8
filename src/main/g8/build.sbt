@@ -8,10 +8,15 @@ ThisBuild / scalaVersion := "3.4.1"
 ThisBuild / scalafmtOnCompile := true
 ThisBuild / versionScheme := Some("early-semver")
 
-val LogicFirstVersion = "0.1.12"
+val LogicFirstVersion = "0.4.1"
 val githubResolver = "GitHub Package Registry" at "https://maven.pkg.github.com/kindservices/logic-first"
 ThisBuild / resolvers += githubResolver
 
+ThisBuild / semanticdbEnabled := true
+ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
+
+addCommandAlias("removeUnusedImports", ";scalafix RemoveUnused")
+addCommandAlias("organiseImports", ";scalafix OrganizeImports")
 
 // Common settings
 lazy val commonSettings = Seq(
@@ -36,7 +41,8 @@ ThisBuild / scalacOptions ++= Seq(
   "-feature",
   "-unchecked",
   "-rewrite",
-  "-Xlint"
+  "-Xlint",
+  "-Wunused:all"
 )
 
 lazy val app = crossProject(JSPlatform, JVMPlatform).in(file(".")).

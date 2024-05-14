@@ -18,15 +18,6 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
-      - name: Install g8
-        run: |
-            curl -Ls https://github.com/foundweekends/giter8/releases/download/v0.14.0/g8-0.14.0-cs-x86_64-pc-win32.zip -o g8.zip
-            unzip g8.zip -d g8
-            echo "$PWD/g8/bin" >> $GITHUB_PATH
-  
-      - name: Generate the source files
-        run: g8 file://. --name=localtest --force
-
       - name: Cache SBT
         uses: actions/cache@v2
         with:
@@ -37,8 +28,12 @@ jobs:
           key: ${{ runner.os }}-sbt-${{ hashFiles('**/build.sbt') }}
           restore-keys: |
                 ${{ runner.os }}-sbt-
-    
-      - name: Change directory to localtest and run sbt test
+
+      - name: Set up GitHub Packages credentials
+        run: echo -e "realm=GitHub Package Registry\nhost=maven.pkg.github.com\nuser=${{ github.actor }}\npassword=${{ secrets.GH_TOKEN }}" > ~/.sbt/.credentials
+            
+      - name: Generate our test project
         run: |
+          sbt new file://$GITHUB_WORKSPACE --name=localtest
           cd localtest
           sbt test

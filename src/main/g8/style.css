@@ -91,3 +91,132 @@ ul {
 .modal-content { background: grey; padding: 20px; border-radius: 5px; }
 .modal-show { display: block; position: absolute; left: calc(10vw); top: calc(20vh)}
 .btn { padding: 8px 16px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+
+
+/* Table Container */
+.table-container {
+  height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+}
+
+/* Table Header */
+thead {
+  background-color: #f8f8f8;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+thead th {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Table Body */
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+tbody tr:nth-child(odd) {
+  background-color: #f1f1f1d3;
+}
+
+tbody tr:hover {
+  background-color: #f1f1f1ae;
+}
+
+tbody td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  color: #555;
+}
+
+/* Overall Appearance */
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+
+/* Hover Effect */
+tbody tr:hover td {
+  background-color: #eef;
+  cursor: pointer;
+}
+
+thead th:hover {
+  background-color: rgb(155, 202, 249);
+  cursor: pointer;
+}
+
+/* Sticky Header */
+thead th {
+  background-color: #f4f4f4;
+  position: sticky;
+  top: 0;
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Table */
+@media screen and (max-width: 600px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  thead tr {
+    display: none;
+  }
+
+  tr {
+    margin-bottom: 15px;
+  }
+
+  td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    padding-left: 15px;
+    font-weight: bold;
+    text-align: left;
+  }
+}
+
+/* resize table cols */
+
+th .resize-handle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 15px;
+  cursor: col-resize;
+  z-index: 1;
+  background-color: #130303;
+}
+
+th .resize-handle:hover {
+  background-color: #ccc;
+}

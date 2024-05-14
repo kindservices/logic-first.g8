@@ -9,7 +9,7 @@ const fs = require('fs');
 const archiver = require('archiver');
 
 // Output file
-const output = fs.createWriteStream(__dirname + '/vite-app.zip');
+const output = fs.createWriteStream(__dirname + '/$name$-app.zip');
 const archive = archiver('zip', {
     zlib: { level: 9 }
 });

@@ -1,14 +1,14 @@
 package $pckg;format="lower,package"$
 
-import scala.util.Try
-import kind.logic.*
-import kind.logic.telemetry.*
-import zio.*
+import kind.logic._
+import kind.logic.telemetry._
+import org.anisation.PizzaHandler.InMemory
+import zio._
 
-import PizzaLogic.*
+import PizzaLogic._
 
 trait PizzaApp {
-  def orderPizza(quantity :Int, toppings : List[String]): Task[Pizza]
+  def orderPizza(quantity: Int, toppings: List[String]): Task[Pizza]
 }
 
 object PizzaApp {
@@ -34,17 +34,32 @@ object PizzaApp {
       new App(newLogic)
     }
 
-    override def orderPizza(quantity :Int, toppings : List[String]) = run(PizzaOperation(quantity, toppings))
-
+    override def orderPizza(quantity: Int, toppings: List[String]) = run(
+      PizzaOperation(quantity, toppings)
+    )
 
     def orderPizzaAsMermaid(quantity: Int, toppings: List[String]) = {
       val result = orderPizza(quantity, toppings).execOrThrow()
 
       // get the call stack as a mermaid diagram
-      val mermaid = telemetry.asMermaidDiagram().execOrThrow()
+      val mermaid = telemetry.asMermaid().execOrThrow()
       result -> mermaid
     }
   }
-  
-  def apply(how: [A] => PizzaOperation[A] => Result[A])(using telemetry: Telemetry = Telemetry()) = new App(how)
+
+  /** @param telemetry
+    *   the telemetry to use in recording our operations
+    * @return
+    *   a tuple of the in-memory handler (implementation) and the app (the runnable logic)
+    */
+  def inMemory(using telemetry: Telemetry): UIO[(InMemory, App)] = {
+    PizzaHandler.inMemory(using telemetry).map { handler =>
+      val app = PizzaApp.apply(handler.implementation)
+      handler -> app
+    }
+  }
+
+  def apply(how: [A] => PizzaOperation[A] => Result[A])(using telemetry: Telemetry = Telemetry()) =
+    new App(how)
 }
+

@@ -31,6 +31,6 @@ jobs:
 
       - name: Generate our test project
         run: |
-          sbt new file://. --name=localtest
+          sbt new file://`PWD` --name=dave
           cd localtest
           sbt test

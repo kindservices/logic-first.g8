@@ -31,7 +31,6 @@ jobs:
 
       - name: Generate our test project
         run: |
-          echo "GITHUB_WORKSPACE is >$GITHUB_WORKSPACE< and env.GITHUB_WORKSPACE is >${{ env.GITHUB_WORKSPACE}}<"
-          sbt new file://$GITHUB_WORKSPACE --name=dave
+          sbt new file://$GITHUB_WORKSPACE --name=localtest
           cd localtest
           sbt test

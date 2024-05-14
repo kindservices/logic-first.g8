@@ -31,6 +31,6 @@ jobs:
 
       - name: Generate our test project
         run: |
-          sbt new file://`PWD` --name=dave
+          sbt new file://${{ env.GITHUB_WORKSPACE }} --name=dave
           cd localtest
           sbt test

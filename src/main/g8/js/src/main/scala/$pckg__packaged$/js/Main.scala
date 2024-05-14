@@ -59,12 +59,8 @@ def pizzaAsSvg(scenario: TestScenario): Option[HTMLDivElement] = {
     given telemetry: Telemetry = Telemetry()
     val result =
       PizzaOps.defaultProgram.orderPizza(request.quantity, request.toppings).execOrThrow()
-    val calls: Seq[CompletedCall] = telemetry.calls.execOrThrow()
-    val messages                  = SvgForCalls(calls)
-    // TODO - scale the config based on the div size
-    val actors = calls.flatMap(c => Set(c.source, c.target))
-    val config = ui.Config.default()
-    Option(InteractiveComponent(actors, messages, config))
+    val calls = telemetry.calls.execOrThrow()
+    Option(SvgForCalls(calls))
   } catch {
     case NonFatal(e) =>
       println(s"Error creating svg: \$e")

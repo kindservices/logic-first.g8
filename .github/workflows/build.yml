@@ -18,15 +18,6 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
-      - name: Install g8
-        run: |
-            curl -Ls https://repo1.maven.org/maven2/org/foundweekends/giter8/giter8-bootstrap_2.12/0.16.2/giter8-bootstrap_2.12-0.16.2.sh -o g8.zip
-            unzip g8.zip -d g8
-            echo "$PWD/g8/bin" >> $GITHUB_PATH
-  
-      - name: Generate the source files
-        run: g8 file://. --name=localtest --force
-
       - name: Cache SBT
         uses: actions/cache@v2
         with:
@@ -37,7 +28,10 @@ jobs:
           key: ${{ runner.os }}-sbt-${{ hashFiles('**/build.sbt') }}
           restore-keys: |
                 ${{ runner.os }}-sbt-
-    
+
+      - name: Generate our test project
+        run: |
+          sbt new file://. --name=localtest
       - name: Change directory to localtest and run sbt test
         run: |
           cd localtest

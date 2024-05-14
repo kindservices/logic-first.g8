@@ -11,9 +11,13 @@ import scala.scalajs.js.JSON
 import scala.scalajs.js.annotation.JSExportTopLevel
 import upickle.default.*
 
+import kind.logic.*
 import kind.logic.js.*
 import kind.logic.telemetry.*
+import kind.logic.js.svg.*
+
 import scala.util.control.NonFatal
+import org.scalajs.dom.HTMLDivElement
 
 
 case class MakePizzaRequest(quantity: Int, toppings: List[String]) derives ReadWriter {
@@ -43,15 +47,46 @@ def initMermaid() = {
       AppSkeleton.mermaidPage.update(scenario, cleaned)
     } catch {
       case NonFatal(e) =>
-        AppSkeleton.mermaidPage.updateError(scenario, s"We couldn't parse the scenario as a DraftContract: \$e")
+        AppSkeleton.mermaidPage.updateError(scenario, s"We couldn't parse the scenario as a MakePizzaRequest: \$e")
     }
   }
 }
 
+
+def pizzaAsSvg(scenario: TestScenario): Option[HTMLDivElement] = {
+  try {
+    val request                = read[MakePizzaRequest](scenario.input)
+    given telemetry: Telemetry = Telemetry()
+    val result =
+      PizzaOps.defaultProgram.orderPizza(request.quantity, request.toppings).execOrThrow()
+    val calls: Seq[CompletedCall] = telemetry.calls.execOrThrow()
+    val messages                  = SvgForCalls(calls)
+    // TODO - scale the config based on the div size
+    val actors = calls.flatMap(c => Set(c.source, c.target))
+    val config = ui.Config.default()
+    Option(InteractiveComponent(actors, messages, config))
+  } catch {
+    case NonFatal(e) =>
+      println(s"Error creating svg: $e")
+      None
+  }
+}
+
+def initSvg() = {
+  EventBus.activeTestScenario.subscribe { scenario =>
+    def fallback  = div(s"We couldn't parse the scenario as a DraftContract or Restaurant").render
+    val component = pizzaAsSvg(scenario).getOrElse(fallback)
+    AppSkeleton.svgPage.innerHTML = ""
+    AppSkeleton.svgPage.appendChild(component)
+  }
+}
+
+
 @main
 def mainJSApp(): Unit = {
   initMermaid()
-
+  initSvg()
+  
   new Drawer(HtmlUtils.\$("drawer")).refresh()
 
   global.window.createScenarioBuilder = createScenarioBuilder

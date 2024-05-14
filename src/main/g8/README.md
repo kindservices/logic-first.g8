@@ -6,20 +6,43 @@ See [Kind Services](https://www.kindservices.co.uk/) for more on a Logic-First a
 
 # Building
 
-## Data Models
+The accompanying [Makefile](./Makefile) has:
 
-An intial `service.yaml` was generated for a contract-first approach to REST services.
+### generateModels - create REST stubs
+`make generateModels` will iterate through all the (./schemas)[./schemas] subdirectories, expecing a `service.yml` and `openapi-config.yml` in each.
 
-The accompanying `Makefile` can generate scala (JVM and JS) model files from that service by running:
+It will generate and the package up the scala stubs for each so that they can be used within this project in both the JVM and JS projects
 
+To add a new service/generated data model, just copy and modify the existing (example)[./schemas/example]
+
+### runUI - quickly see your changes in the browser
+For local development, the typical workflow is:
+
+Continually compile the project:
 ```sh
-make packageRestCode
+sbt "project appjs" ~fastLinkJS
 ```
 
-That will locally pubish the model files, which can then be used from your project.
-(Be sure to uncomment the lines in [build.sbt](build.sbt) if would like to use this contract-first open-api approach in your project)
+And then serve it up using vite
+`make runUI` 
 
-## Compiling
+
+### packageUI - package up the javascript form for your project
+`make packageUI` will package up a zip file which you can then extract and serve by using either:
+
+NPM:
+```sh
+npm install -g serve
+serve -s dist
+```
+
+or Python3:
+```sh
+python3 -m http.server
+```
+
+
+## On the JVM
 
 This project is built using [sbt](https://www.scala-sbt.org/):
 

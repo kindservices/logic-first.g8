@@ -67,7 +67,7 @@ def pizzaAsSvg(scenario: TestScenario): Option[HTMLDivElement] = {
     Option(InteractiveComponent(actors, messages, config))
   } catch {
     case NonFatal(e) =>
-      println(s"Error creating svg: $e")
+      println(s"Error creating svg: \$e")
       None
   }
 }
@@ -86,7 +86,7 @@ def initSvg() = {
 def mainJSApp(): Unit = {
   initMermaid()
   initSvg()
-  
+
   new Drawer(HtmlUtils.\$("drawer")).refresh()
 
   global.window.createScenarioBuilder = createScenarioBuilder

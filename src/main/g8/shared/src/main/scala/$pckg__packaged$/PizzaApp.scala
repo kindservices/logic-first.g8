@@ -62,4 +62,3 @@ object PizzaApp {
   def apply(how: [A] => PizzaOperation[A] => Result[A])(using telemetry: Telemetry = Telemetry()) =
     new App(how)
 }
-

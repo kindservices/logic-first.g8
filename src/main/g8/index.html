@@ -45,14 +45,19 @@
         createNewComponent(container, state);
       });
 
+
       myLayout.on('itemDestroyed', function(item) {
         if (item.type === 'component') {
-          onComponentDestroyed(item.config.id);
+          // item.config.componentState.id may be undefined for the initial component.
+          // the UIComponent is responsible for setting the id.
+          onComponentDestroyed(`${item.config.componentState.id}`);
         }
       });
       myLayout.on('itemCreated', function(item) {
         if (item.config.componentName != undefined) {
-          onComponentCreated(item.config.id);
+          // item.config.componentState.id may be undefined for the initial component.
+          // the UIComponent is responsible for setting the id.
+          onComponentCreated(`${item.config.componentState.id}`);
         }
       });
 
@@ -61,6 +66,15 @@
 
         initLayout(myLayout);
       });
+
+      // TODO - this didn't work, but we want to resize the layout when the window resizes
+      // // Ensure the layout resizes with the window
+      // window.addEventListener('resize', function () {
+      //   myLayout.updateSize();
+      // });
+
+      // // Trigger the resize event manually to ensure the layout is correctly sized initially
+      // window.dispatchEvent(new Event('resize'));
 
     </script>
   </body>

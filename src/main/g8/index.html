@@ -50,14 +50,14 @@
         if (item.type === 'component') {
           // item.config.componentState.id may be undefined for the initial component.
           // the UIComponent is responsible for setting the id.
-          onComponentDestroyed(`${item.config.componentState.id}`);
+          onComponentDestroyed(`\${item.config.componentState.id}`);
         }
       });
       myLayout.on('itemCreated', function(item) {
         if (item.config.componentName != undefined) {
           // item.config.componentState.id may be undefined for the initial component.
           // the UIComponent is responsible for setting the id.
-          onComponentCreated(`${item.config.componentState.id}`);
+          onComponentCreated(`\${item.config.componentState.id}`);
         }
       });
 

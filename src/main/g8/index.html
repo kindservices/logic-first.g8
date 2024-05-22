@@ -25,50 +25,43 @@
     </div>
     <footer>Status: ✅</footer>
     <script>
-        var config = {
+
+      var config = {
             content: [{
                 type: 'row',
                 content: [{
                     type: 'component',
-                    title: "🏗️ Scenario Builder",
-                    componentName: 'createScenarioBuilder',
-                    componentState: {  }
-                },
-                {
-                    type: 'component',
-                    title: "⮂ Sequence Diagram",
-                    componentName: 'createSequenceDiagram',
+                    title: "Initial Component",
+                    componentName: 'createNewComponent',
                     componentState: {  }
                 }]
             }]
         };
-    
-        var myLayout = new GoldenLayout(config, document.getElementById('layoutContainer'));
-        myLayout.registerComponent('createScenarioBuilder', function(container, state) {
-            createScenarioBuilder(container, state);
-        });
-        myLayout.registerComponent('createSequenceDiagram', function(container, state) {
-          createSequenceDiagram(container, state);
-        });
-        myLayout.registerComponent('createInteractivePage', function(container, state) {
-          createInteractivePage(container, state);
-        });
-        myLayout.registerComponent('createDiffPage', function(container, state) {
-          createDiffPage(container, state);
-        });
+      var myLayout = new GoldenLayout(config, document.getElementById('layoutContainer'));
 
-        myLayout.on('itemDestroyed', function(item) {
-            if (item.type === 'component') {
-              onComponentDestroyed(item.config.componentName);
-            }
-        });
-        myLayout.on('itemCreated', function(item) {
-          if (item.config.componentName != undefined) {
-            onComponentCreated(item.config.componentName);
-          }
-        });
+      // w/ scala.js, it's easier to just have one central component, so *all* components are created with
+      // 'createNewComponent'
+      myLayout.registerComponent('createNewComponent', function(container, state) {
+        createNewComponent(container, state);
+      });
 
-        myLayout.init();
+      myLayout.on('itemDestroyed', function(item) {
+        if (item.type === 'component') {
+          onComponentDestroyed(item.config.id);
+        }
+      });
+      myLayout.on('itemCreated', function(item) {
+        if (item.config.componentName != undefined) {
+          onComponentCreated(item.config.id);
+        }
+      });
+
+      window.myLayout = myLayout;
+      document.addEventListener('DOMContentLoaded', () => {
+
+        initLayout(myLayout);
+      });
+
     </script>
   </body>
 </html>

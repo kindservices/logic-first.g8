@@ -80,16 +80,7 @@ def initSvg() = {
 
 @main
 def mainJSApp(): Unit = {
-  initMermaid()
-  initSvg()
 
-  new Drawer(HtmlUtils.\$("drawer")).refresh()
 
-  global.window.createScenarioBuilder = createScenarioBuilder
-  global.window.createSequenceDiagram = createSequenceDiagram
-  global.window.createInteractivePage = createInteractivePage
-  global.window.createDiffPage = createDiffPage
 
-  global.window.onComponentDestroyed = onComponentDestroyed
-  global.window.onComponentCreated = onComponentCreated
 }

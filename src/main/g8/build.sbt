@@ -12,6 +12,8 @@ val LogicFirstVersion = "0.3.0"
 val githubResolver = "GitHub Package Registry" at "https://maven.pkg.github.com/kindservices/logic-first"
 ThisBuild / resolvers += githubResolver
 
+ThisBuild / semanticdbEnabled := true
+ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 
 // Common settings
 lazy val commonSettings = Seq(
@@ -36,7 +38,8 @@ ThisBuild / scalacOptions ++= Seq(
   "-feature",
   "-unchecked",
   "-rewrite",
-  "-Xlint"
+  "-Xlint",
+  "-Wunused:all"
 )
 
 lazy val app = crossProject(JSPlatform, JVMPlatform).in(file(".")).

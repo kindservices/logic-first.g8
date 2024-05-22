@@ -29,6 +29,9 @@ jobs:
           restore-keys: |
                 ${{ runner.os }}-sbt-
 
+      - name: Set up GitHub Packages credentials
+        run: echo -e "realm=GitHub Package Registry\nhost=maven.pkg.github.com\nuser=${{ github.actor }}\npassword=${{ secrets.GH_TOKEN }}" > ~/.sbt/.credentials
+            
       - name: Generate our test project
         run: |
           sbt new file://$GITHUB_WORKSPACE --name=localtest

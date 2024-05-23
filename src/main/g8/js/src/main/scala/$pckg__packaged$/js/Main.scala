@@ -146,7 +146,13 @@ case class MakePizzaRequest(quantity: Int, toppings: List[String]) derives ReadW
 }
 
 @scala.scalajs.js.annotation.JSExportTopLevel("initLayout")
-def initLayout(myLayout: GoldenLayout) = {
+def initLayout(navId : String, myLayout: GoldenLayout) = {
+
+
+  // global.window.initLayout = initLayout
+  global.window.createNewComponent = createNewComponent
+  global.window.onComponentCreated = onComponentCreated
+  global.window.onComponentDestroyed = onComponentDestroyed
 
   // ensure we always have this scenario
   LocalState.addDefaultScenario(
@@ -157,7 +163,7 @@ def initLayout(myLayout: GoldenLayout) = {
     )
   )
 
-  val drawer = HtmlUtils.\$[HTMLElement]("drawer")
+  val drawer = HtmlUtils.\$[HTMLElement](navId)
 
   myLayout.addMenuItem(drawer, "Scenario Builder") { state =>
     MainPage.scenarioBuilder.content
@@ -184,10 +190,3 @@ def initLayout(myLayout: GoldenLayout) = {
   myLayout.init()
 }
 
-@main
-def mainJSApp(): Unit = {
-  global.window.initLayout = initLayout
-  global.window.createNewComponent = createNewComponent
-  global.window.onComponentCreated = onComponentCreated
-  global.window.onComponentDestroyed = onComponentDestroyed
-}

@@ -24,7 +24,23 @@
         <div id="layoutContainer"></div>
     </div>
     <footer>Status: ✅</footer>
-    <script>
+
+
+
+    <script type="module">
+      import { initLayout } from './js/target/scala-3.4.1/app-fastopt/main.mjs';
+
+      var config = {
+          content: [{
+              type: 'row',
+              content: [{
+                  type: 'component',
+                  title: "Initial Component",
+                  componentName: 'createNewComponent',
+                  componentState: {  }
+              }]
+          }]
+      };
 
       var config = {
             content: [{
@@ -64,18 +80,11 @@
       window.myLayout = myLayout;
       document.addEventListener('DOMContentLoaded', () => {
 
-        initLayout(myLayout);
+        initLayout("drawer", myLayout);
       });
 
-      // TODO - this didn't work, but we want to resize the layout when the window resizes
-      // // Ensure the layout resizes with the window
-      // window.addEventListener('resize', function () {
-      //   myLayout.updateSize();
-      // });
 
-      // // Trigger the resize event manually to ensure the layout is correctly sized initially
-      // window.dispatchEvent(new Event('resize'));
+  </script>
 
-    </script>
   </body>
 </html>

@@ -1,5 +1,5 @@
-import org.scalajs.linker.interface.ModuleSplitStyle
-
+import org.scalajs.linker.interface.ModuleKind
+import org.scalajs.linker.interface.OutputPatterns
 
 ThisBuild / organization := "$organisation$"
 ThisBuild / name := "$name$"
@@ -54,7 +54,7 @@ lazy val app = crossProject(JSPlatform, JVMPlatform).in(file(".")).
       "com.lihaoyi" %% "cask" % "$cask_version$")
   ).
   jsSettings(
-    scalaJSUseMainModuleInitializer := true,
+    scalaJSUseMainModuleInitializer := false,
     libraryDependencies ++= Seq(
       "com.github.aaronp" %%% "logic-first-js" % LogicFirstVersion, // <-- NOTE: this would be better in common settings, but we have a different suffix for jvm and JS
       // "io.github.cquiroz" %%% "scala-java-time" % "$scala_time_version$",
@@ -63,10 +63,9 @@ lazy val app = crossProject(JSPlatform, JVMPlatform).in(file(".")).
     ),
     scalaJSLinkerConfig ~= {
       _.withModuleKind(ModuleKind.ESModule)
-        .withModuleSplitStyle(
-          ModuleSplitStyle.SmallModulesFor(List("$organisation$")))
-    },
-  )
+      .withSourceMap(true)
+      .withOutputPatterns(OutputPatterns.fromJSFile("%s.mjs")) // see https://www.scala-js.org/doc/project/module.html
+    })
 
 lazy val root = project.in(file(".")).
   aggregate(app.js, app.jvm).

@@ -2,7 +2,7 @@ package $pckg;format="lower,package"$
 
 import kind.logic._
 import kind.logic.telemetry._
-import org.anisation.PizzaHandler.InMemory
+import PizzaHandler.InMemory
 import zio._
 
 import PizzaLogic._

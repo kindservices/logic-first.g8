@@ -8,8 +8,8 @@ import kind.logic.js.scenarios._
 import kind.logic.js.svg._
 import kind.logic.js.tables._
 import kind.logic.telemetry._
-import org.anisation.PizzaHandler.InMemory
-import org.anisation.PizzaLogic.PizzaOperation._
+import $pckg;format="lower,package"$.PizzaHandler.InMemory
+import $pckg;format="lower,package"$.PizzaLogic.PizzaOperation._
 import org.scalajs.dom
 import org.scalajs.dom.HTMLElement
 import scalatags.JsDom.all._
@@ -33,7 +33,7 @@ object MainPage {
         scenario: TestScenario,
         request: MakePizzaRequest,
         handler: PizzaHandler.InMemory,
-        logic: org.anisation.PizzaApp.App,
+        logic: PizzaApp.App,
         result: Pizza
     )
     case Failure(scenario: TestScenario, error: Throwable)

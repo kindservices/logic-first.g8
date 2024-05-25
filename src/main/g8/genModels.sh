@@ -1,5 +1,6 @@
 #!/usr/env/bin bash
 
+
 genModels() {
 	docker pull openapitools/openapi-generator-cli:latest
 
@@ -7,10 +8,15 @@ genModels() {
     for dir in "schemas"/*/; do
         # Get the base name of the directory
         dirname=\$(basename "\$dir")
-        
+
         # Print the directory being processed
-        echo "Processing directory \$dir (name: \$dirname)"
-        
+
+        echo ""
+        echo "   +-------------------------------------------------"
+        echo "   + Processing \$dirname"
+        echo "   +-------------------------------------------------"
+        echo ""
+
         # Run the Docker command with the subdirectory mounted
 		docker run --rm -v "\${PWD}:/local" openapitools/openapi-generator-cli:latest generate \
 			-i /local/\$dir/service.yaml \
@@ -19,6 +25,8 @@ genModels() {
 			-o /local/target/\$dir; \
 
         echo "Publishing \$dirname"
-		cd "target/schemas/\$dirname" && sbt publishLocal
+		pushd "target/schemas/\$dirname" 
+        sbt publishLocal
+        popd
     done
 }

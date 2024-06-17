@@ -8,7 +8,7 @@ ThisBuild / scalaVersion := "3.4.1"
 ThisBuild / scalafmtOnCompile := true
 ThisBuild / versionScheme := Some("early-semver")
 
-val LogicFirstVersion = "0.4.1"
+val LogicFirstVersion = "0.6.0"
 val githubResolver = "GitHub Package Registry" at "https://maven.pkg.github.com/kindservices/logic-first"
 ThisBuild / resolvers += githubResolver
 
@@ -50,13 +50,13 @@ lazy val app = crossProject(JSPlatform, JVMPlatform).in(file(".")).
   settings(commonSettings).
   jvmSettings(
     libraryDependencies ++= Seq(
-      "com.github.aaronp" %%% "logic-first-jvm" % LogicFirstVersion, // <-- NOTE: this would be better in common settings, but we have a different suffix for jvm and JS
+      "kindservices" %%% "logic-first-jvm" % LogicFirstVersion, // <-- NOTE: this would be better in common settings, but we have a different suffix for jvm and JS
       "com.lihaoyi" %% "cask" % "$cask_version$")
   ).
   jsSettings(
     scalaJSUseMainModuleInitializer := false,
     libraryDependencies ++= Seq(
-      "com.github.aaronp" %%% "logic-first-js" % LogicFirstVersion, // <-- NOTE: this would be better in common settings, but we have a different suffix for jvm and JS
+      "kindservices" %%% "logic-first-js" % LogicFirstVersion, // <-- NOTE: this would be better in common settings, but we have a different suffix for jvm and JS
       // "io.github.cquiroz" %%% "scala-java-time" % "$scala_time_version$",
       // "com.lihaoyi" %%% "scalatags" % "$scalatags_version$",
       // "org.scala-js" %%% "scalajs-dom" % "2.4.0"

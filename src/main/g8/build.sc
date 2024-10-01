@@ -4,7 +4,7 @@ object $name$ extends ScalaModule {
   def scalaVersion = "3.4.1"
 
   // Dependencies
-  def ivyDeps = Agg(ivy"kindservices::logic-first-jvm:0.7.1")
+  def ivyDeps = Agg(ivy"kindservices::logic-first-jvm:0.7.5")
   def testIvyDeps = Agg(ivy"org.scalatest::scalatest:3.2.17")
 
   // we expect a github PAT with this particular

@@ -8,7 +8,7 @@ ThisBuild / scalaVersion := "3.4.1"
 ThisBuild / scalafmtOnCompile := true
 ThisBuild / versionScheme := Some("early-semver")
 
-val LogicFirstVersion = "0.7.1"
+val LogicFirstVersion = "0.7.5"
 val githubResolver = "GitHub Package Registry" at "https://maven.pkg.github.com/kindservices/logic-first"
 ThisBuild / resolvers += githubResolver
 

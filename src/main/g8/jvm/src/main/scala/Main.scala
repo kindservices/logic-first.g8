@@ -1,4 +1,4 @@
-package $pckg;format="lower,package"$
+import $pckg;format="lower,package"$.*
 
 import scala.language.implicitConversions
 import kind.logic.json.*
@@ -6,16 +6,22 @@ import kind.logic.*
 import kind.logic.telemetry.Telemetry
 import zio.*
 
-@main def genModels() = {
-  given t: Telemetry = Telemetry()
+object Main {
+  def main(args : Array[String]) : Unit = {
+    given t: Telemetry = Telemetry()
 
-  val (mermaidDiagram, c4) = scenarios.example("some input").execOrThrow()
-  import eie.io.{*, given}
-  println(t.pretty)
+    val (mermaidDiagram, c4) = scenarios.example("some input").execOrThrow()
+    import eie.io.{*, given}
+    println(t.pretty)
 
-  // a basic mermaid sequence diagram
-  "diagrams/sequence.md".asPath.text = mermaidDiagram
+    // a basic mermaid sequence diagram
+    val sequence = "diagrams/sequence.md".asPath
+    sequence.text = mermaidDiagram
+    println(s"Created ${sequence}")
 
-  // for C4 diagrams
-  "diagrams/workspace.dsl".asPath.text = c4
+    // for C4 diagrams
+    val c4File = "diagrams/workspace.dsl".asPath
+    c4File.text = c4
+    println(s"Created ${c4File}")
+  }
 }

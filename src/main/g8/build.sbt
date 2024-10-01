@@ -50,16 +50,14 @@ lazy val app = crossProject(JSPlatform, JVMPlatform).in(file(".")).
   settings(commonSettings).
   jvmSettings(
     libraryDependencies ++= Seq(
-      "kindservices" %%% "logic-first-jvm" % LogicFirstVersion, // <-- NOTE: this would be better in common settings, but we have a different suffix for jvm and JS
-      "com.lihaoyi" %% "cask" % "$cask_version$")
+      "kindservices" %%% "logic-first-jvm" % LogicFirstVersion // <-- NOTE: this would be better in common settings, but we have a different suffix for jvm and JS
+      )
   ).
   jsSettings(
     scalaJSUseMainModuleInitializer := false,
     libraryDependencies ++= Seq(
       "kindservices" %%% "logic-first-js" % LogicFirstVersion, // <-- NOTE: this would be better in common settings, but we have a different suffix for jvm and JS
-      // "io.github.cquiroz" %%% "scala-java-time" % "$scala_time_version$",
-      // "com.lihaoyi" %%% "scalatags" % "$scalatags_version$",
-      // "org.scala-js" %%% "scalajs-dom" % "2.4.0"
+
     ),
     scalaJSLinkerConfig ~= {
       _.withModuleKind(ModuleKind.ESModule)

@@ -4,13 +4,20 @@ import scala.language.implicitConversions
 import kind.logic.json.*
 import kind.logic.*
 import kind.logic.telemetry.Telemetry
-import org.scalatest.matchers.should.Matchers
-import org.scalatest.wordspec.AnyWordSpec
 import zio.*
 
 object scenarios {
 
-  def example(input : String)(using t: Telemetry) = {
+  import model.*
+
+  /**
+   * Some made-up example scenario of using an app
+   *
+   * @param data the user input
+   * @param t the telemetry to capture the calls
+   * @return the result of the scenario
+   */
+  def example(data : String)(using t: Telemetry) = {
     for
       _ <- (data.asTask *> BFF.save(data).traceWith(Action(UI, BFF.System, "onSave"), data))
       .traceWith(Action(Admin, UI, "save form"), data)

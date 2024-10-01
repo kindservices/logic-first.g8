@@ -4,8 +4,6 @@ import scala.language.implicitConversions
 import kind.logic.json.*
 import kind.logic.*
 import kind.logic.telemetry.Telemetry
-import org.scalatest.matchers.should.Matchers
-import org.scalatest.wordspec.AnyWordSpec
 import zio.*
 
 /**

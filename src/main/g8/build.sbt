@@ -8,7 +8,7 @@ ThisBuild / scalaVersion := "3.4.1"
 ThisBuild / scalafmtOnCompile := true
 ThisBuild / versionScheme := Some("early-semver")
 
-val LogicFirstVersion = "0.6.0"
+val LogicFirstVersion = "0.7.1"
 val githubResolver = "GitHub Package Registry" at "https://maven.pkg.github.com/kindservices/logic-first"
 ThisBuild / resolvers += githubResolver
 
@@ -90,6 +90,6 @@ sys.env.get("GITHUB_TOKEN") match {
       token
     )
   case _ =>
-    println("\n\t\tGITHUB_TOKEN not set - assuming a local build\n\n")
-    credentials ++= Nil
+    println("\n\t\tGITHUB_TOKEN not set - using PATH from ~/.sbt/1.0/credentials\n\n")
+    ThisBuild / credentials += Credentials(Path.userHome / ".sbt" / "1.0" / "credentials")
 }

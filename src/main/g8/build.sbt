@@ -8,7 +8,7 @@ ThisBuild / scalaVersion := "3.4.1"
 ThisBuild / scalafmtOnCompile := true
 ThisBuild / versionScheme := Some("early-semver")
 
-val LogicFirstVersion = "0.6.0"
+val LogicFirstVersion = "0.7.5"
 val githubResolver = "GitHub Package Registry" at "https://maven.pkg.github.com/kindservices/logic-first"
 ThisBuild / resolvers += githubResolver
 
@@ -50,16 +50,14 @@ lazy val app = crossProject(JSPlatform, JVMPlatform).in(file(".")).
   settings(commonSettings).
   jvmSettings(
     libraryDependencies ++= Seq(
-      "kindservices" %%% "logic-first-jvm" % LogicFirstVersion, // <-- NOTE: this would be better in common settings, but we have a different suffix for jvm and JS
-      "com.lihaoyi" %% "cask" % "$cask_version$")
+      "kindservices" %%% "logic-first-jvm" % LogicFirstVersion // <-- NOTE: this would be better in common settings, but we have a different suffix for jvm and JS
+      )
   ).
   jsSettings(
     scalaJSUseMainModuleInitializer := false,
     libraryDependencies ++= Seq(
       "kindservices" %%% "logic-first-js" % LogicFirstVersion, // <-- NOTE: this would be better in common settings, but we have a different suffix for jvm and JS
-      // "io.github.cquiroz" %%% "scala-java-time" % "$scala_time_version$",
-      // "com.lihaoyi" %%% "scalatags" % "$scalatags_version$",
-      // "org.scala-js" %%% "scalajs-dom" % "2.4.0"
+
     ),
     scalaJSLinkerConfig ~= {
       _.withModuleKind(ModuleKind.ESModule)
@@ -90,6 +88,6 @@ sys.env.get("GITHUB_TOKEN") match {
       token
     )
   case _ =>
-    println("\n\t\tGITHUB_TOKEN not set - assuming a local build\n\n")
-    credentials ++= Nil
+    println("\n\t\tGITHUB_TOKEN not set - using PATH from ~/.sbt/1.0/credentials\n\n")
+    ThisBuild / credentials += Credentials(Path.userHome / ".sbt" / "1.0" / "credentials")
 }

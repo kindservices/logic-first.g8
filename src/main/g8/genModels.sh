@@ -1,7 +1,7 @@
 #!/usr/env/bin bash
 
 generate() {
-	docker pull openapitools/openapi-generator-cli:latest
+    docker pull openapitools/openapi-generator-cli:latest
 
     # Iterate over all subdirectories under schemas
     for dir in "schemas"/*/; do
@@ -41,7 +41,7 @@ buildModels() {
         echo ""
 
         echo "Publishing \$dirname"
-	pushd "target/schemas/\$dirname"
+	      pushd "target/schemas/\$dirname"
         sbt publishLocal
         popd
     done

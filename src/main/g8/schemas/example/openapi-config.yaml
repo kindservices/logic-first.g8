@@ -5,4 +5,4 @@ packageName: $pckg;format="lower,package"$
 modelPackage: $pckg;format="lower,package"$.model
 apiPackage: $pckg;format="lower,package"$.api
 gitRepoId: $organisation$
-gitUserId: $user_name;format="norm"$
+gitUserId: $github_username;format="norm"$

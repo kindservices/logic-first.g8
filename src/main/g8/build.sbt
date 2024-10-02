@@ -75,7 +75,7 @@ lazy val root = project.in(file(".")).
 
 ThisBuild / publishMavenStyle := true
 
-val githubUser = "$user_name$"
+val githubUser = "$github_username$"
 val githubRepo = "$name$"
 ThisBuild / publishTo := Some("GitHub Package Registry" at s"https://maven.pkg.github.com/\$githubUser/\$githubRepo")
 
